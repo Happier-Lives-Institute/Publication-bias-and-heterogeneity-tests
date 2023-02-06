@@ -32,19 +32,25 @@ dat <- dat %>% filter(ID %ni% c(28,29,30,34,35,36))
 dat.analysis <- dat %>% filter(PublicationBiasMethod != "no method")
 
 # Average reduction of PT effect
-mean(dat.analysis$perc_ref_PT)
-sd(dat.analysis$perc_ref_PT)
-median(dat.analysis$perc_ref_PT)
+dat.analysis %>% summarise(across(
+    perc_ref_PT, .fns=list(mean = mean, sd = sd, median = median))
+)
 
 # Average reduction of all CT effect
-mean(dat.analysis$perc_ref_allGD)
-sd(dat.analysis$perc_ref_allGD)
-median(dat.analysis$perc_ref_allGD)
+dat.analysis %>% summarise(across(
+    perc_ref_allGD, .fns=list(mean = mean, sd = sd, median = median))
+)
 
 # Average c-e ratio
-mean(dat.analysis$ce_change_allCTs)
-sd(dat.analysis$ce_change_allCTs)
-median(dat.analysis$ce_change_allCTs)
+dat.analysis %>% summarise(across(
+    ce_change_allCTs, .fns=list(mean = mean, sd = sd, median = median))
+)
+
+# Average c-e ratio taking out tests that increase the c-e ratio
+dat.analysis %>% filter(ce_change_allCTs < 9.44) %>%
+    summarise(across(
+        ce_change_allCTs, .fns=list(mean = mean, sd = sd, median = median))
+    )
 
 # More general information
 min(dat.analysis$ce_change_allCTs)
@@ -54,7 +60,7 @@ dat.analysis <- dat.analysis %>% mutate(category = case_when(
     ce_change_allCTs > 9.4 ~ "9.4+",
     ce_change_allCTs < 9.4 & ce_change_allCTs > 7 ~ "7-9.4",
     ce_change_allCTs < 7 & ce_change_allCTs > 5 ~ "5-7",
-    ce_change_allCTs < 5 ~ "3-5",
+    ce_change_allCTs < 5 ~ "< 5",
 ))
 
 table(dat.analysis$category)
@@ -84,8 +90,9 @@ p <-
                      pattern_size = 0.1,
                      pattern_key_scale_factor = 0.6) +
 
-    # geom_col() +
-    geom_vline(xintercept = 9.4) +
+    geom_vline(xintercept = 9.44) +
+    geom_vline(xintercept = 3, linetype = 2) +
+    geom_vline(xintercept = 7, linetype = 2) +
 
     # Graph graphics #
     theme_classic() +
@@ -96,7 +103,7 @@ p <-
     # Element blank used to delete the plot element.
     theme(
         text                 = element_text(size = 12),
-        #axis.title.x         = element_blank(),
+        # axis.title.x         = element_blank(),
         axis.text.x          = element_text(size = 12),
         axis.text.y          = element_text(hjust = 0, size = 12),
         axis.ticks.y         = element_blank(),
@@ -110,7 +117,7 @@ p <-
                                             face="bold"),
 
         # Below specifies details of legends appearance
-        legend.position= c(0.7,0.5),
+        legend.position      = c(0.8, 0.7),
         legend.justification = "center",
         legend.margin        = margin(6, 6, 6, 6),
         legend.text          = element_text(size = 10),
@@ -134,7 +141,7 @@ ggsave(filename = "bias_comparisons.png",
        dpi = 1200)
 
 # wrap the plot
-wrap.p <- p + facet_wrap(~DataSelection) + theme(legend.position = "none")
+wrap.p <- p + facet_wrap(~DataSelection) + theme(legend.position = "none"); wrap.p
 
 ggsave(filename = "bias_comparisons_wrap.png",
        plot = wrap.p,

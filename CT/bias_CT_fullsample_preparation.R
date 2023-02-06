@@ -14,7 +14,7 @@ dat %<>% mutate(n_100 = N / 100)
 # So it's best to include the corrected SE as well.
 
 dat %<>% mutate(
-    SE_corrected = if_else(is.na(T_n), sqrt(((N/2)*(N/2)) / ((N/2)*(N/2))),
+    SE_corrected = if_else(is.na(T_n), sqrt(((N/2)+(N/2)) / ((N/2)*(N/2))),
                            sqrt((T_n   + C_n) / (T_n  * C_n))),
     SE_corrected_sq = SE_corrected^2
 ) #%>%
