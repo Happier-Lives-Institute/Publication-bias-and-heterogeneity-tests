@@ -3,19 +3,44 @@ source("CT/bias_CT_fullsample_preparation.R")
 ############################
 #      Trim-and-fill
 ############################
-# -----------
+
+# ------------
 # Random effects
 # ------------
-tf.m.RE.full  <- trimfill(m.RE.full); tf.m.RE.full
-tf.m.RE.noout <- trimfill(m.RE.noout); tf.m.RE.noout
-tf.m.RE.noFU  <- trimfill(m.RE.noFU); tf.m.RE.noFU
+tf.m.RE.full  <- trimfill(
+    m.RE.full,
+    random = T,
+    fixed = F
+); tf.m.RE.full
+tf.m.RE.noout <- trimfill(
+    m.RE.noout,
+    random = T,
+    fixed = F
+); tf.m.RE.noout
+tf.m.RE.noFU  <- trimfill(
+    m.RE.noFU,
+    random = T,
+    fixed = F
+); tf.m.RE.noFU
 
 # ------------
 # Fixed effects
 # ------------
-tf.m.FE.full  <- trimfill(m.FE.full); tf.m.FE.full
-tf.m.FE.noout <- trimfill(m.FE.noout); tf.m.FE.noout
-tf.m.FE.noFU  <- trimfill(m.FE.noFU); tf.m.FE.noFU
+tf.m.FE.full  <- trimfill(
+    m.FE.full,
+    random = F,
+    fixed = T
+); tf.m.FE.full
+tf.m.FE.noout <- trimfill(
+    m.FE.noout,
+    random = F,
+    fixed = T
+); tf.m.FE.noout
+tf.m.FE.noFU  <- trimfill(
+    m.FE.noFU,
+    random = F,
+    fixed = T
+); tf.m.FE.noFU
 
 
 ############################

@@ -7,16 +7,40 @@ source("PT/bias_PT_preparation.R")
 # ------------
 # Random effects
 # ------------
-tf.m.RE.full  <- trimfill(m.RE.full); tf.m.RE.full
-tf.m.RE.noout <- trimfill(m.RE.noout); tf.m.RE.noout
-tf.m.RE.noFU  <- trimfill(m.RE.noFU); tf.m.RE.noFU
+tf.m.RE.full  <- trimfill(
+    m.RE.full,
+    random = T,
+    fixed = F
+); tf.m.RE.full
+tf.m.RE.noout <- trimfill(
+    m.RE.noout,
+    random = T,
+    fixed = F
+); tf.m.RE.noout
+tf.m.RE.noFU  <- trimfill(
+    m.RE.noFU,
+    random = T,
+    fixed = F
+); tf.m.RE.noFU
 
 # ------------
 # Fixed effects
 # ------------
-tf.m.FE.full  <- trimfill(m.FE.full); tf.m.FE.full
-tf.m.FE.noout <- trimfill(m.FE.noout); tf.m.FE.noout
-tf.m.FE.noFU  <- trimfill(m.FE.noFU); tf.m.FE.noFU
+tf.m.FE.full  <- trimfill(
+    m.FE.full,
+    random = F,
+    fixed = T
+); tf.m.FE.full
+tf.m.FE.noout <- trimfill(
+    m.FE.noout,
+    random = F,
+    fixed = T
+); tf.m.FE.noout
+tf.m.FE.noFU  <- trimfill(
+    m.FE.noFU,
+    random = F,
+    fixed = T
+); tf.m.FE.noFU
 
 ############################
 #       PET
@@ -41,13 +65,13 @@ PET.RE.noFU <- rma.uni(yi = d, vi = SE^2, mods = ~SE_corrected,
 # ------------
 # This is how PET-PEESE is intended to be used
 PET.FE.full <- rma.uni(yi = d, vi = SE^2, mods = ~SE_corrected,
-                        data = dat, method = "FE"); PET.FE.full
+                       data = dat, method = "FE"); PET.FE.full
 
 PET.FE.noout <- rma.uni(yi = d, vi = SE^2, mods = ~SE_corrected,
                         data = dat_FE_noout, method = "FE"); PET.FE.noout
 
 PET.FE.noFU <- rma.uni(yi = d, vi = SE^2, mods = ~SE_corrected,
-                         data = dat_noFU, method = "FE"); PET.FE.noFU
+                       data = dat_noFU, method = "FE"); PET.FE.noFU
 
 ############################
 #       PEESE
@@ -73,13 +97,13 @@ PEESE.RE.noFU <- rma.uni(yi = d, vi = SE^2, mods = ~SE_corrected_sq,
 # This is how PET-PEESE is intended to be used
 
 PEESE.FE.full <- rma.uni(yi = d, vi = SE^2, mods = ~SE_corrected_sq,
-                        data = dat, method = "FE"); PEESE.FE.full
+                         data = dat, method = "FE"); PEESE.FE.full
 
 PEESE.FE.noout <- rma.uni(yi = d, vi = SE^2, mods = ~SE_corrected_sq,
-                         data = dat_FE_noout, method = "FE"); PEESE.FE.noout
+                          data = dat_FE_noout, method = "FE"); PEESE.FE.noout
 
 PEESE.FE.noFU <- rma.uni(yi = d, vi = SE^2, mods = ~SE_corrected_sq,
-                        data = dat_noFU, method = "FE"); PEESE.FE.noFU
+                         data = dat_noFU, method = "FE"); PEESE.FE.noFU
 
 ############################
 #       Rucker's limit
@@ -107,14 +131,14 @@ rl.m.FE.noFU  <- metasens::limitmeta(m.FE.noFU); rl.m.FE.noFU
 # Random effect
 # ------------
 pc.m.RE.full  <- pcurve(m.RE.full,
-                         N=dat$n,
-                         effect.estimation = T); pc.m.RE.full
+                        N=dat$n,
+                        effect.estimation = T); pc.m.RE.full
 pc.m.RE.noout <- pcurve(m.RE.noout,
-                         N=dat_RE_noout$n,
-                         effect.estimation = T); pc.m.RE.noout
+                        N=dat_RE_noout$n,
+                        effect.estimation = T); pc.m.RE.noout
 pc.m.RE.noFU  <- pcurve(m.RE.noFU,
-                         N=dat_noFU$n,
-                         effect.estimation = T); pc.m.RE.noFU
+                        N=dat_noFU$n,
+                        effect.estimation = T); pc.m.RE.noFU
 
 # ------------
 # Fixed effect
@@ -142,25 +166,25 @@ pc.m.FE.noFU  <- pcurve(m.FE.noFU,
 # random effects
 # ------------
 m.RE.full <- rma(yi = d,
-                  sei = SE,
-                  data = dat,
-                  slab = Authors,
-                  method = "REML",
-                  test = "t"
+                 sei = SE,
+                 data = dat,
+                 slab = Authors,
+                 method = "REML",
+                 test = "t"
 )
 m.RE.noout <- rma(yi = d,
-                   sei = SE,
-                   data = dat_RE_noout,
-                   slab = Authors,
-                   method = "REML",
-                   test = "t"
-)
-m.RE.noFU <- rma(yi = d,
                   sei = SE,
-                  data = dat_noFU,
+                  data = dat_RE_noout,
                   slab = Authors,
                   method = "REML",
                   test = "t"
+)
+m.RE.noFU <- rma(yi = d,
+                 sei = SE,
+                 data = dat_noFU,
+                 slab = Authors,
+                 method = "REML",
+                 test = "t"
 )
 
 
@@ -198,14 +222,14 @@ m.FE.noFU <- rma(yi = d,
 # ------------
 
 sm3.m.RE.full  <- selmodel(m.RE.full,
-                            type = "stepfun",
-                            steps = 0.025); sm3.m.RE.full
+                           type = "stepfun",
+                           steps = 0.025); sm3.m.RE.full
 sm3.m.RE.noout <- selmodel(m.RE.noout,
-                            type = "stepfun",
-                            steps = 0.025); sm3.m.RE.noout
+                           type = "stepfun",
+                           steps = 0.025); sm3.m.RE.noout
 sm3.m.RE.noFU  <- selmodel(m.RE.noFU,
-                            type = "stepfun",
-                            steps = 0.025); sm3.m.RE.noFU
+                           type = "stepfun",
+                           steps = 0.025); sm3.m.RE.noFU
 
 # ------------
 # fixed effects
