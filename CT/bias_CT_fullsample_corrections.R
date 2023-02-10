@@ -51,27 +51,27 @@ tf.m.FE.noFU  <- trimfill(
 #------------
 # trying something, not how this is intended to be used
 
-PET.RE.full <- rma.uni(yi = d, vi = d_se^2,
+PET.RE.full <- rma.uni(yi = d, vi = SE_corrected^2,
                        mods = ~ SE_corrected,
                        data = dat, method = "REML"); PET.RE.full
 
-PET.RE.noout <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected,
+PET.RE.noout <- rma.uni(yi = d, vi = SE_corrected^2, mods = ~SE_corrected,
                         data = dat_RE_noout, method = "REML"); PET.RE.noout
 
-PET.RE.noFU <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected,
+PET.RE.noFU <- rma.uni(yi = d, vi = SE_corrected^2, mods = ~SE_corrected,
                        data = dat_noFU, method = "REML"); PET.RE.noFU
 
 #------------
 # Fixed effects
 #------------
 # This is how PET-PEESE is intended to be used
-PET.FE.full <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected,
+PET.FE.full <- rma.uni(yi = d, vi = SE_corrected^2, mods = ~SE_corrected,
                        data = dat, method = "FE"); PET.FE.full
 
-PET.FE.noout <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected,
+PET.FE.noout <- rma.uni(yi = d, vi = SE_corrected^2, mods = ~SE_corrected,
                         data = dat_FE_noout, method = "FE"); PET.FE.noout
 
-PET.FE.noFU <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected,
+PET.FE.noFU <- rma.uni(yi = d, vi = SE_corrected^2, mods = ~SE_corrected,
                        data = dat_noFU, method = "FE"); PET.FE.noFU
 
 
@@ -82,26 +82,26 @@ PET.FE.noFU <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected,
 # Random effects
 #------------
 # trying something, not how this is intended to be used
-PEESE.RE.full <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected_sq,
+PEESE.RE.full <- rma.uni(yi = d, vi = SE_corrected^2, mods = ~SE_corrected_sq,
                          data = dat, method = "REML"); PEESE.RE.full
 
-PEESE.RE.noout <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected_sq,
+PEESE.RE.noout <- rma.uni(yi = d, vi = SE_corrected^2, mods = ~SE_corrected_sq,
                           data = dat_RE_noout, method = "REML"); PEESE.RE.noout
 
-PEESE.RE.noFU <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected_sq,
+PEESE.RE.noFU <- rma.uni(yi = d, vi = SE_corrected^2, mods = ~SE_corrected_sq,
                          data = dat_noFU, method = "REML"); PEESE.RE.noFU
 
 #------------
 # Fixed effects
 #------------
 # This is how PET-PEESE is intended to be used
-PEESE.FE.full <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected_sq,
+PEESE.FE.full <- rma.uni(yi = d, vi = SE_corrected^2, mods = ~SE_corrected_sq,
                          data = dat, method = "FE"); PEESE.FE.full
 
-PEESE.FE.noout <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected_sq,
+PEESE.FE.noout <- rma.uni(yi = d, vi = SE_corrected^2, mods = ~SE_corrected_sq,
                           data = dat_FE_noout, method = "FE"); PEESE.FE.noout
 
-PEESE.FE.noFU <- rma.uni(yi = d, vi = d_se^2, mods = ~SE_corrected_sq,
+PEESE.FE.noFU <- rma.uni(yi = d, vi = SE_corrected^2, mods = ~SE_corrected_sq,
                          data = dat_noFU, method = "FE"); PEESE.FE.noFU
 
 ############################
